@@ -1,4 +1,0 @@
-|| *command*    || *summary* ||
-|| gc || retrieve list of available commands ||
-|| s <command> || sends command to lirc ||
-|| p || pings the bt server ||
