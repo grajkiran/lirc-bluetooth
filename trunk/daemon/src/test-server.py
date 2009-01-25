@@ -12,7 +12,7 @@ server_sock.listen(1)
 
 port = server_sock.getsockname()[1]
 
-uuid = "94f39d29-7d6d-437d-973b-fba39e49d4ee"
+uuid = "084a08da-e722-11dd-9bf8-000fb0c7d780"
 
 advertise_service(server_sock, "SampleServer",
                    service_id=uuid,
