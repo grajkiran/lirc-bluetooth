@@ -192,9 +192,14 @@ public class DeviceDiscovery implements DiscoveryListener, CommandListener {
         } else if (displayable == list) {
             ServiceRecord sr = (ServiceRecord) servicesFound.elementAt(list
                     .getSelectedIndex());
-            main.changeServer(sr.getConnectionURL(
-                    ServiceRecord.NOAUTHENTICATE_NOENCRYPT, false));
-            main.restore();
+            String connUrl = sr.getConnectionURL(
+                    ServiceRecord.NOAUTHENTICATE_NOENCRYPT, false);
+            try {
+                Settings.saveURL(connUrl);
+            } catch (Exception e) {
+                main.setStatus("Failed to save the record in store");
+            }
+            main.changeServer(connUrl);
         }
     }
 }
