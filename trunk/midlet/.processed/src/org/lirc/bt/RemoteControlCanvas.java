@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.io.OutputStream;
 
 import javax.microedition.lcdui.Canvas;
+import javax.microedition.lcdui.CommandListener;
 import javax.microedition.lcdui.Graphics;
 import javax.microedition.lcdui.Image;
 
@@ -12,12 +13,13 @@ public class RemoteControlCanvas extends Canvas {
     int y = 0;
     int code = 0;
 
-    OutputStream os;
-
     Image i;
+    
+    private final Main main;
 
-    public RemoteControlCanvas() {
+    public RemoteControlCanvas(Main main) {
         super();
+        this.main = main;
         try {
             i = Image.createImage("/t.png");
         } catch (IOException e) {
@@ -65,18 +67,7 @@ public class RemoteControlCanvas extends Canvas {
      */
     protected void keyPressed(int keyCode) {
         code = getGameAction(keyCode);
-
-        String s = "Pressed: " + String.valueOf(code);
-        try {
-            if (os != null) {
-                os.write(s.getBytes());
-                os.flush();
-            }
-
-        } catch (IOException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
+        main.sendEvent(code);
         repaint();
     }
 
@@ -87,10 +78,6 @@ public class RemoteControlCanvas extends Canvas {
      */
     protected void keyRepeated(int keyCode) {
         keyPressed(keyCode);
-    }
-
-    public void setStream(OutputStream os) {
-        this.os = os;
     }
 
 }
