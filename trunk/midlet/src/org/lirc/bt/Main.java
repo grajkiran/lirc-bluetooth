@@ -104,7 +104,7 @@ public class Main extends MIDlet implements CommandListener {
     public void sendEvent(int code) {
         // TODO Auto-generated method stub
         if (sender != null) {
-            sender.send(String.valueOf(code) + "\n");
+            sender.send(String.valueOf(code));
         }
     }
 

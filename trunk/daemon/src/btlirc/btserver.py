@@ -63,7 +63,7 @@ class BluetoothServer (threading.Thread, utils.NonBlockingThread):
       if app.verbose:
         log("[BluetoothServer] Accepted connection from " + str(address))
         
-      t = BluetoothClientHandle(client_sock, self.queue)
+      t = BluetoothClientHandle(client_sock, self)
       t.start()
 
     server_sock.close()
@@ -74,10 +74,11 @@ class BluetoothServer (threading.Thread, utils.NonBlockingThread):
     return True
 
 
-class BluetoothClientHandle(threading.Thread):
-  def __init__(self, socket, queue):
+class BluetoothClientHandle(threading.Thread, utils.NonBlockingThread):
+  def __init__(self, socket, srv):
     self.socket = socket
-    self.queue = queue
+    self.srv = srv
+    self.queue = srv.queue
     threading.Thread.__init__ (self)
     
   def run (self):
@@ -85,11 +86,19 @@ class BluetoothClientHandle(threading.Thread):
     if app.verbose:
       log("[BluetoothClientHandle] Taking connection")
     while True:
+        
+      if not self.srv.active:
+        break
+      
       if app.verbose:
         log("[BluetoothClientHandle] waiting data...")
         
-      buff = self.socket.recv(globals.MAX_MSG_SIZE)
-      if not buff: break
+        try:
+          buff = self.socket.recv(globals.MAX_MSG_SIZE)
+          if not buff: break
+        except bluetooth.BluetoothError, e:
+            print "Error recieving: %s" % e
+            break
 
       if app.verbose:
         log("[BluetoothClientHandle] got: " + buff)

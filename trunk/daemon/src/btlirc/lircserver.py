@@ -45,10 +45,9 @@ class LircServer(threading.Thread, utils.NonBlockingThread):
         log("[LircServer] Using port " + str(port))
 
     if self.use_unix_socket:
-        if os.access(app.lirc_file, os.F_OK):
+        if os.access(port, os.F_OK):
             try:
-              os.remove(app.lirc_file)
-              print "ok"
+              os.remove(port)
             except OSError:
               self.mainapp.die("[LircServer] Can't delete file: " + app.lirc_file)
               return
@@ -58,6 +57,8 @@ class LircServer(threading.Thread, utils.NonBlockingThread):
 
     try:
         s.bind(port)
+        if self.use_unix_socket:
+            os.chmod(port, 0666)
     except Exception, e:
         self.mainapp.die("[LircServer] Can't bind socket: " + str(e[1]))
         return
