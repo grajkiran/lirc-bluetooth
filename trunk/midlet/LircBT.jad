@@ -4,6 +4,6 @@ MIDlet-Info-URL: http://code.google.com/p/lirc-bluetooth/
 MIDlet-Jar-URL: LircBT.jar
 MIDlet-Name: Lirc Bluetooth Remote
 MIDlet-Vendor: Svilen Ivanov
-MIDlet-Version: 1.0.95
+MIDlet-Version: 1.0.96
 MicroEdition-Configuration: CLDC-1.1
 MicroEdition-Profile: MIDP-2.0
