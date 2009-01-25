@@ -6,52 +6,69 @@ import java.io.OutputStream;
 
 import javax.microedition.io.Connector;
 import javax.microedition.io.StreamConnection;
-import javax.microedition.lcdui.Alert;
-import javax.microedition.lcdui.AlertType;
 
-public class Sender {
+public class Sender extends Thread {
     private final Main main;
-    
+    private StreamConnection conn;
     OutputStream os;
     InputStream is;
-    StreamConnection con;
 
     public Sender(Main main) {
         this.main = main;
     }
-    
-    public void init() {
-        String url = main.getUrl();
-        StreamConnection conn = null;
 
-        try {
-            conn = (StreamConnection) Connector.open(url);
-            os = conn.openOutputStream();
-            is = conn.openInputStream();
-        } catch (IOException e) {
-            Alert al = new Alert("Failed", "Failed to connect to service",
-                    null, AlertType.ERROR);
-            al.setTimeout(2000);
-            // TODO close the connection 
-            conn = null;
-            os = null;
-            is = null;
-        }
-    }
-    
-    public void send(String data) {
+    public synchronized void send(String data) {
         if (os != null) {
             try {
+                main.setSignal();
                 os.write(data.getBytes());
                 os.flush();
+                main.setConnected(true);
             } catch (IOException e) {
-                Alert al = new Alert("Failed", "Failed to send",
-                        null, AlertType.ERROR);
-                al.setTimeout(2000);
+                cleanup();
+                return;
+            }
+        }
+        
+        main.setConnected(false);
+    }
+
+    private void cleanup() {
+        try {
+            if (os != null)
+                os.close();
+            if (is != null)
+                is.close();
+            if (conn != null)
+                conn.close();
+        } catch (IOException e1) {
+        }
+        conn = null;
+        os = null;
+        is = null;
+        main.setConnected(false);
+    }
+
+    public void run() {
+        // TODO Auto-generated method stub
+        while (true) {
+            if (conn == null && main.getUrl() != null) {
+                try {
+                    conn = (StreamConnection) Connector.open(main.getUrl());
+                    os = conn.openOutputStream();
+                    is = conn.openInputStream();
+                    main.setConnected(true);
+                } catch (IOException e) {
+                    cleanup();
+                }
+            } else {
+                send("nop");
+            }
+
+            try {
+                sleep(1000);
+            } catch (InterruptedException e) {
             }
         }
     }
-    
-    
 }
- 

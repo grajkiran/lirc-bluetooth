@@ -1,13 +1,5 @@
 package org.lirc.bt;
 
-import java.io.IOException;
-import java.io.OutputStream;
-
-import javax.microedition.io.Connection;
-import javax.microedition.io.Connector;
-import javax.microedition.io.StreamConnection;
-import javax.microedition.lcdui.Alert;
-import javax.microedition.lcdui.AlertType;
 import javax.microedition.lcdui.Command;
 import javax.microedition.lcdui.CommandListener;
 import javax.microedition.lcdui.Display;
@@ -16,6 +8,8 @@ import javax.microedition.midlet.MIDlet;
 import javax.microedition.midlet.MIDletStateChangeException;
 
 public class Main extends MIDlet implements CommandListener {
+
+    public static final String NAME = "[x] BT Remote";
 
     // Display
     private Display display;
@@ -45,8 +39,7 @@ public class Main extends MIDlet implements CommandListener {
     public void changeServer(String url) {
         this.url = url;
         restore();
-        sender = new Sender(this);
-        sender.init();
+
     }
 
     public Main() {
@@ -64,20 +57,26 @@ public class Main extends MIDlet implements CommandListener {
     }
 
     protected void startApp() throws MIDletStateChangeException {
-
-        // displayable = new RemoteControlCanvas();
-
         displayable = new RemoteControlCanvas(this);
+        displayable.setTitle(NAME);
 
         exitCommand = new Command("Exit", Command.EXIT, 1);
         displayable.addCommand(exitCommand);
         displayable.setCommandListener(this);
 
-        optionsCommand = new Command("Options", Command.OK, 1);
+        optionsCommand = new Command("Search", Command.SCREEN, 1);
         displayable.addCommand(optionsCommand);
         displayable.setCommandListener(this);
 
-        restore();
+        String url = Settings.getLastKnownURL();
+        if (url != null) {
+            changeServer(url);
+        } else {
+            restore();
+        }
+
+        sender = new Sender(this);
+        sender.start();
     }
 
     public void commandAction(Command command, Displayable displayable) {
@@ -100,11 +99,33 @@ public class Main extends MIDlet implements CommandListener {
         // Get display for drawing
         display = Display.getDisplay(this);
         display.setCurrent(displayable);
-
     }
 
     public void sendEvent(int code) {
         // TODO Auto-generated method stub
-        sender.send(String.valueOf(code) + "\n");
+        if (sender != null) {
+            sender.send(String.valueOf(code) + "\n");
+        }
+    }
+
+    public void setStatus(String string) {
+        Display.getDisplay(this).getCurrent().setTitle(string);
+    }
+    
+    private void updateTitle(String prefix) {
+        String title = Display.getDisplay(this).getCurrent().getTitle();
+        //title = title.substring(prefix.length(), title.length());
+        title = prefix + title;
+        Display.getDisplay(this).getCurrent().setTitle(title);
+
+    }
+
+    public void setConnected(boolean connected) {
+        //updateTitle(connected ? "[o] " : "[x] ");
+
+    }
+    
+    public void setSignal() {
+        //updateTitle("[.] ");
     }
 }

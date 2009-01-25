@@ -11,14 +11,11 @@ import javax.bluetooth.LocalDevice;
 import javax.bluetooth.RemoteDevice;
 import javax.bluetooth.ServiceRecord;
 import javax.bluetooth.UUID;
-import javax.microedition.lcdui.ChoiceGroup;
 import javax.microedition.lcdui.Command;
 import javax.microedition.lcdui.CommandListener;
 import javax.microedition.lcdui.Display;
 import javax.microedition.lcdui.Displayable;
 import javax.microedition.lcdui.Form;
-import javax.microedition.lcdui.Item;
-import javax.microedition.lcdui.ItemCommandListener;
 import javax.microedition.lcdui.List;
 import javax.microedition.lcdui.StringItem;
 
@@ -195,9 +192,14 @@ public class DeviceDiscovery implements DiscoveryListener, CommandListener {
         } else if (displayable == list) {
             ServiceRecord sr = (ServiceRecord) servicesFound.elementAt(list
                     .getSelectedIndex());
-            main.changeServer(sr.getConnectionURL(
-                    ServiceRecord.NOAUTHENTICATE_NOENCRYPT, false));
-            main.restore();
+            String connUrl = sr.getConnectionURL(
+                    ServiceRecord.NOAUTHENTICATE_NOENCRYPT, false);
+            try {
+                Settings.saveURL(connUrl);
+            } catch (Exception e) {
+                main.setStatus("Failed to save the record in store");
+            }
+            main.changeServer(connUrl);
         }
     }
 }
