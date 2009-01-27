@@ -8,8 +8,7 @@ import javax.microedition.midlet.MIDlet;
 import javax.microedition.midlet.MIDletStateChangeException;
 
 public class Main extends MIDlet implements CommandListener {
-
-    public static final String NAME = "[x] BT Remote";
+    public static final String DEFAULT_NAME = "LIRC Remote";
 
     // Display
     private Display display;
@@ -23,7 +22,7 @@ public class Main extends MIDlet implements CommandListener {
 
     private String url = null;
 
-    private Sender sender;
+    private Sender sender ;
 
     /**
      * @return the url
@@ -43,7 +42,7 @@ public class Main extends MIDlet implements CommandListener {
     }
 
     public Main() {
-        // TODO Auto-generated constructor stub
+        sender = new Sender(this);
     }
 
     protected void destroyApp(boolean arg0) throws MIDletStateChangeException {
@@ -58,7 +57,6 @@ public class Main extends MIDlet implements CommandListener {
 
     protected void startApp() throws MIDletStateChangeException {
         displayable = new RemoteControlCanvas(this);
-        displayable.setTitle(NAME);
 
         exitCommand = new Command("Exit", Command.EXIT, 1);
         displayable.addCommand(exitCommand);
@@ -72,10 +70,9 @@ public class Main extends MIDlet implements CommandListener {
         if (url != null) {
             changeServer(url);
         } else {
-            restore();
+            commandAction(optionsCommand, displayable);
         }
 
-        sender = new Sender(this);
         sender.start();
     }
 
@@ -102,30 +99,16 @@ public class Main extends MIDlet implements CommandListener {
     }
 
     public void sendEvent(int code) {
-        // TODO Auto-generated method stub
-        if (sender != null) {
-            sender.send(String.valueOf(code));
+        sender.send(String.valueOf(code));
+    }
+
+    public void updateConnectionStatus(String title) {
+        Display disp = Display.getDisplay(this);
+        if (disp != null) {
+            Displayable d = disp.getCurrent();
+            if (d instanceof RemoteControlCanvas) {
+                d.setTitle(title);
+            }
         }
-    }
-
-    public void setStatus(String string) {
-        Display.getDisplay(this).getCurrent().setTitle(string);
-    }
-    
-    private void updateTitle(String prefix) {
-        String title = Display.getDisplay(this).getCurrent().getTitle();
-        //title = title.substring(prefix.length(), title.length());
-        title = prefix + title;
-        Display.getDisplay(this).getCurrent().setTitle(title);
-
-    }
-
-    public void setConnected(boolean connected) {
-        //updateTitle(connected ? "[o] " : "[x] ");
-
-    }
-    
-    public void setSignal() {
-        //updateTitle("[.] ");
     }
 }

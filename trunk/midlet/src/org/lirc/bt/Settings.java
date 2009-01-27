@@ -4,11 +4,14 @@ import javax.microedition.rms.InvalidRecordIDException;
 import javax.microedition.rms.RecordStore;
 
 public class Settings {
+    
+    private static final String STORE_NAME = "LircBT";
+    
     public static String getLastKnownURL() {
         RecordStore store;
         byte[] data = null;
         try {
-            store = RecordStore.openRecordStore(Main.NAME, true);
+            store = RecordStore.openRecordStore(STORE_NAME, true);
 
             for (int i = 1, limit = store.getNextRecordID(); i < limit; i++) {
                 try {
@@ -33,7 +36,7 @@ public class Settings {
     }
 
     public static void saveURL(String url) throws Exception {
-        RecordStore store = RecordStore.openRecordStore(Main.NAME, true);
+        RecordStore store = RecordStore.openRecordStore(STORE_NAME, true);
         byte[] data = url.getBytes();
 
         for (int i = 1, limit = store.getNextRecordID(); i < limit; i++) {

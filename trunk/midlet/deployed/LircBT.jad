@@ -1,6 +1,7 @@
 MIDlet-1: Main,,org.lirc.bt.Main
 MIDlet-Icon: /icon.png
 MIDlet-Info-URL: http://code.google.com/p/lirc-bluetooth/
+MIDlet-Jar-Size: 33836
 MIDlet-Jar-URL: LircBT.jar
 MIDlet-Name: LIRC Remote
 MIDlet-Vendor: Svilen Ivanov
