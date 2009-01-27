@@ -62,7 +62,7 @@ public class DeviceDiscovery implements DiscoveryListener, CommandListener {
         list.append(getDeviceName(dev), null);
     }
 
-    private String getDeviceName(RemoteDevice dev) {
+    public static String getDeviceName(RemoteDevice dev) {
         try {
             return dev.getFriendlyName(true);
         } catch (IOException e) {
@@ -197,7 +197,6 @@ public class DeviceDiscovery implements DiscoveryListener, CommandListener {
             try {
                 Settings.saveURL(connUrl);
             } catch (Exception e) {
-                main.setStatus("Failed to save the record in store");
             }
             main.changeServer(connUrl);
         }

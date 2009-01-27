@@ -1,7 +1,6 @@
 package org.lirc.bt;
 
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.OutputStream;
 
 import javax.microedition.io.Connector;
@@ -10,8 +9,10 @@ import javax.microedition.io.StreamConnection;
 public class Sender extends Thread {
     private final Main main;
     private StreamConnection conn;
-    OutputStream os;
-    InputStream is;
+    private OutputStream os;
+    private boolean connected = false;
+    private static final String DEFAULT_NAME = "LIRC Remote";
+    private int timeout = 1000;
 
     public Sender(Main main) {
         this.main = main;
@@ -20,44 +21,37 @@ public class Sender extends Thread {
     public synchronized void send(String data) {
         if (os != null) {
             try {
-                main.setSignal();
                 os.write(data.getBytes());
                 os.flush();
-                main.setConnected(true);
+                setConnected(true);
             } catch (IOException e) {
                 cleanup();
-                return;
             }
+        } else {
+            setConnected(false);
         }
-        
-        main.setConnected(false);
     }
 
     private void cleanup() {
         try {
             if (os != null)
                 os.close();
-            if (is != null)
-                is.close();
             if (conn != null)
                 conn.close();
-        } catch (IOException e1) {
+        } catch (IOException e) {
         }
         conn = null;
         os = null;
-        is = null;
-        main.setConnected(false);
+        setConnected(false);
     }
 
     public void run() {
-        // TODO Auto-generated method stub
         while (true) {
             if (conn == null && main.getUrl() != null) {
                 try {
                     conn = (StreamConnection) Connector.open(main.getUrl());
                     os = conn.openOutputStream();
-                    is = conn.openInputStream();
-                    main.setConnected(true);
+                    setConnected(true);
                 } catch (IOException e) {
                     cleanup();
                 }
@@ -66,9 +60,18 @@ public class Sender extends Thread {
             }
 
             try {
-                sleep(1000);
+                sleep(this.timeout);
             } catch (InterruptedException e) {
             }
+        }
+    }
+
+    private void setConnected(boolean connected) {
+        if (connected != this.connected) {
+            this.connected = connected;
+            this.timeout = this.connected ? 5000 : 1000;
+            main.updateConnectionStatus((this.connected ? "[o]" : "[x]") + " "
+                    + DEFAULT_NAME);
         }
     }
 }
