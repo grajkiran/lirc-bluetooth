@@ -6,9 +6,7 @@ from time import sleep
 import platform
 import utils
 
-
 mutex = threading.Lock()
-
 
 class CommandQueue( threading.Thread,  utils.NonBlockingThread ):
   commands = None
@@ -22,8 +20,7 @@ class CommandQueue( threading.Thread,  utils.NonBlockingThread ):
   def addCommand(self, cmd):
     mutex.acquire()
     
-    if app.verbose:
-      log("[CommandQueue] Agregando comando: "+cmd)
+    log("[CommandQueue] Adding command: "+cmd)
     self.commands.append(cmd)
     
     mutex.release()
@@ -37,29 +34,19 @@ class CommandQueue( threading.Thread,  utils.NonBlockingThread ):
       mutex.acquire()
       
       if len(self.commands) > 0:
-        #Log.debug(self.commands.Count+" comandos para procesar");
-          
         for cmd in self.commands:
             self.lircServer.sendCommand(Command(cmd).toString())
-
         self.commands = []
       
       mutex.release()
         
       sleep(0.1)
-      
-      
-
-
 
 class Command:
-  #keyCode = "0000000000eab154"
   keyCode = "0x9"
   command = ""
   repeat = 0
   control = "BLUELIRC"
-  
-  #sprintf(buf, "0x9 0x0 %s LIRCDE_FAKE_IR\n", code.c_str());
   
   def __init__(self, command=''):
     self.command = command
@@ -73,9 +60,5 @@ class Command:
         self.keyCode = "0000000000eab154"
 
   def toString(self):
-    #srep = "00" + repeat;
-    #return  keyCode + " " + srep.Substring(srep.Length - 2) + " " + command + " " + control;
-   
-
     return "0x9 0x0 %s BLUELIRC" % self.command
  

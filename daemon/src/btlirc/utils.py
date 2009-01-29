@@ -1,9 +1,3 @@
-
-
-def dump(obj):
-  for attr in dir(obj):
-    print "obj.%s = %s" % (attr, getattr(obj, attr))
-
 class NonBlockingThread( ):
     active = True
 
@@ -11,7 +5,6 @@ class NonBlockingThread( ):
         self.active = True
     
     def setactive(self,  active):
-        #print "Changing active status to: "+str(active)
         self.active = active
     
     def isactive(self):

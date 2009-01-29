@@ -4,27 +4,57 @@ from btlirc import globals
 from btlirc.mainapp import MainAppServer
 import sys
 import getopt
+import time
+from btlirc.daemon import Daemon
+from btlirc.globals import app
+import logging
 
-def show_usage():
+def usage():
   print "LIRC Daemon Emulator"
-  print "usage: bluelirc [-d]"
-  print "   -d  daemonize"
-  print "   -f  lircd file"
+  print "usage: %s [-o] [-L] [-v] [-P] start|stop|restart" % sys.argv[0]
+  print "   -o  output socket filename (/dev/lircd)"
+  print "   -L  log file to write"
+  print "   -v  turn on debug messages"
+  print "   -P  pid file for daemon"
+  
   sys.exit(0)
 
-optlist, list = getopt.getopt(sys.argv[1:], 'hdf:')
-daemonize = False
-lirc_file = None
+class MyDaemon(Daemon):
+  def run(self):
+    mas = MainAppServer()
+    mas.init()
+    
+if __name__ == "__main__":
+  optlist, args = getopt.getopt(sys.argv[1:], 'ho:L:vP:')
+  for (opt, value) in optlist:
+    if opt == '-o':
+      app.lirc_file = value
+    elif opt == '-L':
+      app.log = value
+    elif opt == '-v':
+      app.loglevel = logging.DEBUG
+    elif opt == '-P':
+      app.pid_file = value
+    elif opt == '-h':
+      usage()
+    else:
+      usage()
 
-for opt in optlist:
-  if opt[0] == '-d':
-    daemonize = True
-  elif opt[0] == '-f':
-    lirc_file = opt[1]
-  elif opt[0] == '-h':
-    show_usage()
+  daemon = MyDaemon(app.pid_file)
+
+  if (len(args) == 1):
+    cmd = args[0] 
+    if 'start' == cmd:
+      daemon.start()
+    elif 'stop' == cmd:
+      daemon.stop()
+    elif 'restart' == cmd:
+      daemon.restart()
+    else:
+      print "Unknown command: %s" %cmd
+      usage()
+      sys.exit(2)
+    sys.exit(0)
   else:
-    show_usage()
-
-mas = MainAppServer()
-mas.init(daemonize, lirc_file)
+    usage()
+    sys.exit(2)
