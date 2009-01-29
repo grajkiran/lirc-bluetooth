@@ -1,10 +1,13 @@
 #!/usr/bin/python
 
-from globals import log, app
+from globals import log, app, logger
 import bluetooth
 import globals
 import threading
 import utils
+import utils
+import socket
+
 
 #/* ============================================================================= */
 #/* FUNCTIONS: IMPLEMENTATIONS */
@@ -15,8 +18,7 @@ class BluetoothServer (threading.Thread, utils.NonBlockingThread):
   queue = None
   mainapp = None
   
-  def __init__(self, mainapp, port, queue):
-    self.port = port
+  def __init__(self, mainapp, queue):
     self.mainapp = mainapp
     self.queue = queue
     threading.Thread.__init__ (self)
@@ -43,8 +45,7 @@ class BluetoothServer (threading.Thread, utils.NonBlockingThread):
       if not self.active:
           break
 
-      if app.verbose:
-        log("[BluetoothServer] Waiting for bluetooth conections...")
+      logger.info("[BluetoothServer] Waiting for bluetooth connections...")
 
       client_sock = None
       while client_sock == None:
@@ -54,22 +55,19 @@ class BluetoothServer (threading.Thread, utils.NonBlockingThread):
         try:
           client_sock, address = server_sock.accept()
         except:
-          #if app.verbose == 2: print ".", 
           pass
         
       if client_sock == None:
         continue
 
-      if app.verbose:
-        log("[BluetoothServer] Accepted connection from " + str(address))
+      logger.info("[BluetoothServer] Accepted connection from " + str(address))
         
       t = BluetoothClientHandle(client_sock, self)
       t.start()
 
     server_sock.close()
     
-    if app.verbose:
-      log("[BluetoothServer] Bye bye.")
+    log("[BluetoothServer] Bye bye.")
     
     return True
 
@@ -83,29 +81,24 @@ class BluetoothClientHandle(threading.Thread, utils.NonBlockingThread):
     
   def run (self):
     
-    if app.verbose:
-      log("[BluetoothClientHandle] Taking connection")
+    log("[BluetoothClientHandle] Taking connection")
     while True:
         
       if not self.srv.active:
         break
       
-      if app.verbose:
-        log("[BluetoothClientHandle] waiting data...")
+      log("[BluetoothClientHandle] waiting data...")
         
-        try:
-          buff = self.socket.recv(globals.MAX_MSG_SIZE)
-          if not buff: break
-        except bluetooth.BluetoothError, e:
-            print "Error recieving: %s" % e
-            break
+      try:
+        buff = self.socket.recv(globals.MAX_MSG_SIZE)
+        if not buff: break
+      except bluetooth.BluetoothError, e:
+        print "Error receiving: %s (%s)" % (e, self.socket)
+        break
 
-      if app.verbose:
-        log("[BluetoothClientHandle] got: " + buff)
+      log("[BluetoothClientHandle] got: " + buff)
       self.queue.addCommand(buff);
-      #lircde_process_command
     
-    if app.verbose:
-      log("[BluetoothClientHandle] Connection finished")
+    logger.info("[BluetoothClientHandle] Connection finished")
       
     self.socket.close()

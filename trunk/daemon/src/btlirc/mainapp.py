@@ -5,7 +5,10 @@ from commands import CommandQueue
 from globals import log, app
 from lircserver import LircServer
 from time import sleep
+import signal
 import globals
+from globals import logger
+import logging
 
 #/* ============================================================================= */
 #/* FUNCTIONS: IMPLEMENTATIONS */
@@ -16,30 +19,32 @@ class MainAppServer:
   _errors = False
   _errmsg = ""
   
-  def init(self, daemonize, lirc_file):
-    log("[MainAppServer] Welcome to Phonemote Server 0.1")
+  def init(self):
+    self.initlog();
+    logger.info("[MainAppServer] Welcome to Phonemote Server 0.1")
 
-    lircServer = LircServer(self, lirc_file);
+    lircServer = LircServer(self);
     queue = CommandQueue(self, lircServer)
     queue.start()
     lircServer.start()
 
     # start bluetooth server
-    btServer = BluetoothServer(self, app.btserver_port, queue)
+    btServer = BluetoothServer(self, queue)
     btServer.start() 
+    
+    signal.signal(signal.SIGTERM, lambda *args: self.exit())
 
     while True:
         if self._exit: 
             break
         
         try:
-            sleep(.5)
+            sleep(10)
         except KeyboardInterrupt:
             print "[MainAppServer] ** Got KeyboardInterrupt **"
             break
     
-    if app.verbose:
-      log("[MainAppServer] Shutting down phonemote server.")
+    log("[MainAppServer] Shutting down phonemote server.")
       
     #lircServer.join()
     self.killthread(btServer, "Bluetooth Server")
@@ -47,29 +52,32 @@ class MainAppServer:
     self.killthread(lircServer, "LIRC Server")
    
     if self._errors:
-      log("[MainAppServer] ** Exit with error: " + self._errmsg)
+      logger.info("[MainAppServer] ** Exit with error: " + self._errmsg)
       
-    if app.verbose:
-        log("[MainAppServer] Bye bye.")
-
-    #return TRUE;
+    logger.info("[MainAppServer] Bye bye.")
 
   def exit(self):
     self._exit = True
 
   def die(self, msg):
-    print "*** ERROR *** " + msg
+    logger.error("*** ERROR *** " + msg)
     self._errmsg = msg
     self._errors = True
     self.exit()
     
   def killthread(self, t, name):
-    if app.verbose:
-      log("[MainAppServer] Waiting for " + name + " to shutdown...") 
+    log("[MainAppServer] Waiting for " + name + " to shutdown...") 
     
     t.setactive(False)
-    #t.join()
     
-    if app.verbose:
-      log("[MainAppServer] ..." + name + " shutdown complete.")
-
+    log("[MainAppServer] ..." + name + " shutdown complete.")
+    
+  def initlog(self):
+    if app.log != None:
+      logger.setLevel(app.loglevel)
+      
+      fh = logging.FileHandler(app.log)
+      fh.setLevel(app.loglevel)
+      formatter = logging.Formatter("%(asctime)s - %(levelname)s - %(message)s")
+      fh.setFormatter(formatter)
+      logger.addHandler(fh)
