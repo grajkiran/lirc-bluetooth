@@ -1,0 +1,7 @@
+/var/log/btlirc.log {
+    missingok
+    size 100k
+    rotate 0
+    copytruncate
+    daily
+}

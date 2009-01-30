@@ -1,0 +1,11 @@
+Package: btlirc
+Version: 0.1-1
+Architecture: i386
+Maintainer: Svilen Ivanov <svilen.ivanov@gmail.com>
+Installed-Size: 84
+Depends: python-bluez (>= 0.14)
+Section: universe/utils
+Priority: extra
+Homepage: http://code.google.com/p/lirc-bluetooth/wiki/Home
+Description: btlirc turns your mobile phone into a universal remote control.
+    btlirc turns your mobile phone into a universal remote control for your PC.
