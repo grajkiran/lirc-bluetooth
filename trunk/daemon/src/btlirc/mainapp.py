@@ -21,7 +21,7 @@ class MainAppServer:
   
   def init(self):
     self.initlog();
-    logger.info("[MainAppServer] Welcome to Phonemote Server 0.1")
+    logger.info("[MainAppServer] Welcome to btlirc Server 0.1")
 
     lircServer = LircServer(self);
     queue = CommandQueue(self, lircServer)
