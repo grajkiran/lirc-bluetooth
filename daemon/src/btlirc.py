@@ -10,7 +10,7 @@ from btlirc.globals import app
 import logging
 
 def usage():
-  print "LIRC Daemon Emulator"
+  print "btlirc - lirc-alike daemon for bluetooth remotes"
   print "usage: %s [-o] [-L] [-v] [-P] start|stop|restart" % sys.argv[0]
   print "   -o  output socket filename (/dev/lircd)"
   print "   -L  log file to write"

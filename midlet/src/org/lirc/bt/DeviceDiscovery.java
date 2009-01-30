@@ -20,7 +20,7 @@ import javax.microedition.lcdui.List;
 import javax.microedition.lcdui.StringItem;
 
 public class DeviceDiscovery implements DiscoveryListener, CommandListener {
-    private static final String BTLIRC_UUID = "084a08dae72211dd9bf8000fb0c7d780";
+    private static final String BTLIRC_UUID = "0b8d4d809bf611ddb89f0017319b4e54";
 
     private DiscoveryAgent agent = null;
     private LocalDevice local = null;

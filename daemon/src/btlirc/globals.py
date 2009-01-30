@@ -6,7 +6,7 @@ import logging
 app = Preferences()
 
 MAX_MSG_SIZE = 250
-UUID = "084a08da-e722-11dd-9bf8-000fb0c7d780"
+UUID = "0b8d4d80-9bf6-11dd-b89f-0017319b4e54"
 
 # create logger
 logger = logging.getLogger()

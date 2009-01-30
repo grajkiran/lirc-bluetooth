@@ -44,7 +44,7 @@ install: build
 	mkdir -p $(CURDIR)/debian/btlirc/usr/share/btlirc/btlirc
 	mkdir -p $(CURDIR)/debian/btlirc/etc/btlirc/
 
-	cp src/phonemote.py $(CURDIR)/debian/btlirc/usr/share/btlirc/phonemote.py
+	cp src/btlirc.py $(CURDIR)/debian/btlirc/usr/share/btlirc/btlirc.py
 	cp src/btlirc/*.py $(CURDIR)/debian/btlirc/usr/share/btlirc/btlirc
 	cp debian/btlirc.conf $(CURDIR)/debian/btlirc/etc/btlirc/btlirc.conf
 
