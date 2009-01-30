@@ -14,7 +14,7 @@
 #
 
 PATH=/bin:/usr/bin:/sbin:/usr/sbin
-DAEMON=/usr/share/btlirc/phonemote.py
+DAEMON=/usr/share/btlirc/btlirc.py
 LABEL="btlirc remote control daemon"
 NAME="btlirc"
 

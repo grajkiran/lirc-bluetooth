@@ -44,7 +44,7 @@ class MainAppServer:
             print "[MainAppServer] ** Got KeyboardInterrupt **"
             break
     
-    log("[MainAppServer] Shutting down phonemote server.")
+    log("[MainAppServer] Shutting down btlirc server.")
       
     #lircServer.join()
     self.killthread(btServer, "Bluetooth Server")
