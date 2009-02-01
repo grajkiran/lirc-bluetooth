@@ -67,7 +67,7 @@ binary-arch: build install
 #	dh_installpam
 #	dh_installmime
 	dh_pysupport
-	dh_installinit
+	dh_installinit -- "start 26 2 3 4 5 . stop 73 0 1 6 ."
 	dh_installlogrotate
 #	dh_installcron
 #	dh_installinfo

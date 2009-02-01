@@ -38,11 +38,15 @@ public class Main extends MIDlet implements CommandListener {
     public void changeServer(String url) {
         this.url = url;
         restore();
-
+        if (sender != null) {
+            sender.stop();
+            sender = null;
+        }
+        sender = new Sender(this);
+        sender.start();
     }
 
     public Main() {
-        sender = new Sender(this);
     }
 
     protected void destroyApp(boolean arg0) throws MIDletStateChangeException {
@@ -73,7 +77,7 @@ public class Main extends MIDlet implements CommandListener {
             commandAction(optionsCommand, displayable);
         }
 
-        sender.start();
+        
     }
 
     public void commandAction(Command command, Displayable displayable) {
@@ -81,6 +85,10 @@ public class Main extends MIDlet implements CommandListener {
             if (command == this.exitCommand) {
                 exitMIDlet();
             } else if (command == this.optionsCommand) {
+                if (sender != null) {
+                    sender.stop();
+                    sender = null;
+                }
                 DeviceDiscovery d = new DeviceDiscovery(this);
                 d.discover();
             }
@@ -99,7 +107,11 @@ public class Main extends MIDlet implements CommandListener {
     }
 
     public void sendEvent(int code) {
-        sender.send(String.valueOf(code));
+        if (code > 0 && code < 127) {
+            sender.send(new String("KEY_" + (char) code));
+        } else {
+            sender.send(new String("KEY_" + Integer.toHexString(code).toUpperCase()));
+        }
     }
 
     public void updateConnectionStatus(String title) {

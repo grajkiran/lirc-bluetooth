@@ -1,8 +1,10 @@
 #! /bin/sh
 #### BEGIN INIT INFO
 # Provides:          btlirc
-# Required-Start:    bluetooth
-# Required-Stop:     bluetooth
+# Required-Start:    $remote_fs $network $syslog
+# Required-Stop:     $remote_fs $network $syslog
+# Should-Start:      bluetooth
+# Should-Stop:       bluetooth
 # Default-Start:     2 3 4 5
 # Default-Stop:      S 0 1 6
 # Short-Description: LIRC-alike daemon for Bluetooth remote control

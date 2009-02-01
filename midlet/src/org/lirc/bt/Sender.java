@@ -13,6 +13,7 @@ public class Sender extends Thread {
     private boolean connected = false;
     private static final String DEFAULT_NAME = "LIRC Remote";
     private int timeout = 1000;
+    private boolean running = false;
 
     public Sender(Main main) {
         this.main = main;
@@ -46,8 +47,8 @@ public class Sender extends Thread {
     }
 
     public void run() {
-        while (true) {
-            if (conn == null && main.getUrl() != null) {
+        while (running) {
+            if (conn == null && main.getUrl() != null && running) {
                 try {
                     conn = (StreamConnection) Connector.open(main.getUrl());
                     os = conn.openOutputStream();
@@ -73,5 +74,17 @@ public class Sender extends Thread {
             main.updateConnectionStatus((this.connected ? "[o]" : "[x]") + " "
                     + DEFAULT_NAME);
         }
+    }
+
+    public void start() {
+        if (!running) {
+            this.running = true;
+            super.start();
+        }
+    }
+
+    public void stop() {
+        this.running = false;
+        cleanup();
     }
 }
