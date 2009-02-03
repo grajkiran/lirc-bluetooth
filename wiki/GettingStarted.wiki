@@ -10,6 +10,7 @@ $ sudo dpkg -i btlirc_0.1-1_i386.deb
   # Copy sample `.lircrc` configuration in your home directory:
 {{{
 $ cp /usr/share/doc/btlirc/dot_lircrc ~/.lircrc
+}}}
   # That's it! The daemon is successfully install. 
 
 = Installing the mobile application =
