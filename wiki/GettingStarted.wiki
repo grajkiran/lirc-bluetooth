@@ -15,4 +15,12 @@ $ cp /usr/share/doc/btlirc/dot_lircrc ~/.lircrc
 
 = Installing the mobile application =
 
-Since 
+There are several ways to install the mobile application - choose either one of them, whichever seems you the easiest.
+
+== Installing over the air ==
+
+You can install the mobile application using your cellphones Internet browser by opening the following URL:
+  * *http://lirc-bluetooth.googlecode.com/files/LircBT.jar* , or
+  * *http://tinyurl.com/btlirc*
+(I know, typing long URLs on cellphone keypad is tedios job)
+
