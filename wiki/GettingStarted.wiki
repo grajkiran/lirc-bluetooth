@@ -25,3 +25,13 @@ To install the mobile application, open one of the follwing URLs using your cell
   * http://lirc-bluetooth.googlecode.com/files/LircBT.jar
   * http://tinyurl.com/btlirc
 (I know, typing long URLs on cellphone keypad is tedious job)
+
+Follow the instructions on the phone's screen to complete the installation. This method is tested with Nokia 6021 and I suppose it should work with any other Nokia phone.
+
+If the described method above doesn't work, try the following: some mobile phones need second file - *JAD file* - for installing an application. The JAD files are located at:
+  * http://lirc-bluetooth.googlecode.com/files/LircBT.jad
+  * http://tinyurl.com/btlirc-jad
+
+Same as above, try to open the URLs using your cellphone's browser. *Note:* This method is not working on Nokia phone but might work on other cell phones (Sony Ericsson or Samsung) 
+
+== Installing over Bluetooth ==
