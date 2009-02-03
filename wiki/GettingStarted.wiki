@@ -1,5 +1,17 @@
 #summary Quickstart guide for installing and running bluetooth remote control
 
-  # = Installing the daemon =
+= Installing the daemon =
 
-First you need to install *btlirc* daemon. It is really simple - just download the latest version from  
+  # First you need to install *btlirc* daemon. It is really simple - just download the latest Debian/Ubuntu package and install it:
+{{{
+$ wget http://lirc-bluetooth.googlecode.com/files/btlirc_0.1-1_i386.deb
+$ sudo dpkg -i btlirc_0.1-1_i386.deb
+}}}
+  # Copy sample `.lircrc` configuration in your home directory:
+{{{
+$ cp /usr/share/doc/btlirc/dot_lircrc ~/.lircrc
+  # That's it! The daemon is successfully install. 
+
+= Installing the mobile application =
+
+Since 
