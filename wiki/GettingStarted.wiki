@@ -19,8 +19,9 @@ There are several ways to install the mobile application - choose either one of 
 
 == Installing over the air ==
 
-You can install the mobile application using your cellphones Internet browser by opening the following URL:
-  * *http://lirc-bluetooth.googlecode.com/files/LircBT.jar* , or
-  * *http://tinyurl.com/btlirc*
-(I know, typing long URLs on cellphone keypad is tedios job)
+It is the simplest way to install the mobile application on your phone. In order to use this method, you need to have data plan (GPRS/CSD) from your carrier. Or in other words, you must check if you can open web pages using cell phone's mobile browser. *Note:* You don't need data plan to _use_ the application once it is installed. Your carrier _will_ charge you small fee for the few kilobytes traffic you generated downloading the application.
 
+To install the mobile application, open one of the follwing URLs using your cellphone's browser:
+  * http://lirc-bluetooth.googlecode.com/files/LircBT.jar
+  * http://tinyurl.com/btlirc
+(I know, typing long URLs on cellphone keypad is tedious job)
