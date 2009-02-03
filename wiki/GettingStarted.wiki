@@ -1,5 +1,5 @@
 #summary Quickstart guide for installing and running bluetooth remote control
 
-= Installing the daemon =
+  # = Installing the daemon =
 
 First you need to install *btlirc* daemon. It is really simple - just download the latest version from  
