@@ -1,4 +1,4 @@
 This page contains information about compatibility of Java application with different cell phones:
 
-|| *Model* || *Status ||
-|| Nokia 6021 || Working ||
+|| *Model* || *Status* || *Reported by* ||
+|| Nokia 6021 || Working || svilen.ivanov@gmail.com ||
