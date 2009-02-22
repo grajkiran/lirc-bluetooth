@@ -1,4 +1,5 @@
 This page contains information about compatibility of Java application with different cell phones:
 
-|| *Model* || *Status* || *Reported by* ||
-|| Nokia 6021 || Working || svilen.ivanov@gmail.com ||
+|| *Model* || *Status* || *Reported by* || *Notes* ||
+|| Nokia 6021 || Working || Svilen Ivanov || - || 
+|| Sony Ericsson 6021 || Working || Pavel Mlčoch || UI too small ||
