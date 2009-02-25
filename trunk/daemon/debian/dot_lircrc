@@ -1,0 +1,223 @@
+################################################################################
+#
+# This is sample ~/.lircrc configuration file, compatible with btlirc -
+# LIRC-alike daemon allowing to use any MIDP 2.0 mobile phone as Bluetooh
+# remote control if phone support JSR 082 (Bluetooth API)
+#
+# Currenly supported applications:
+#   * mplayer
+#
+# Author: Svilen Ivanov <svilen.ivanov@gmail.com>
+# Project page: http://code.google.com/p/lirc-bluetooth/wiki/Home
+#
+################################################################################
+
+################################################################################
+#
+# Mplayer
+#
+################################################################################
+
+begin
+    prog = mplayer
+    button = KEY_FFFFFFFF
+    config = volume 1
+end
+
+begin
+    prog = mplayer
+    button = KEY_FFFFFFFE
+    config = volume -1
+end
+
+begin
+    prog = mplayer
+    button = KEY_FFFFFFFD
+    config = seek -10
+end
+
+begin
+    prog = mplayer
+    button = KEY_FFFFFFFC
+    config = seek 10
+end
+
+begin
+    prog = mplayer
+    button = KEY_FFFFFFF6
+    config = vo_fullscreen
+end
+
+begin
+    prog = mplayer
+    button = KEY_1
+    config = volume -1
+end
+
+begin
+    prog = mplayer
+    button = KEY_2
+    config = volume 1
+end
+
+begin
+    prog = mplayer
+    button = KEY_3
+    config = mute
+end
+
+begin
+    prog = mplayer
+    button = KEY_4
+    config = seek -10
+end
+
+begin
+    prog = mplayer
+    button = KEY_5
+    config = pause
+end
+
+begin
+    prog = mplayer
+    button = KEY_6
+    config = seek +10
+end
+
+begin
+    prog = mplayer
+    button = KEY_7
+    config = pt_step -1
+end
+
+begin
+    prog = mplayer
+    button = KEY_8
+    config = quit
+end
+
+begin
+    prog = mplayer
+    button = KEY_9
+    config = pt_step 1
+end
+
+begin
+    prog = mplayer
+    button = KEY_#
+    config = osd
+end
+
+begin
+    prog = mplayer
+    button = KEY_*
+    config = sub_delay -0.1
+end
+
+begin
+    prog = mplayer
+    button = KEY_0
+    config = sub_delay 0.1
+end
+
+################################################################################
+#
+# XMMS 
+#
+################################################################################
+
+begin
+    prog = xmms
+    button = KEY_1
+    config = VOL_DOWN 5
+end
+
+begin
+    prog = xmms
+    button = KEY_2
+    config = VOL_UP 5
+end
+
+begin
+    prog = xmms
+    button = KEY_3
+    config = MUTE
+end
+
+begin
+    prog = xmms
+    button = KEY_4
+    config = BWD 30
+end
+
+begin
+    prog = xmms
+    button = KEY_5
+    config = PLAYPAUSE
+end
+
+begin
+    prog = xmms
+    button = KEY_6
+    config = FWD 30
+end
+
+begin
+    prog = xmms
+    button = KEY_7
+    config = PREV 1
+end
+
+begin
+    prog = xmms
+    button = KEY_8
+    config = STOP
+end
+
+begin
+    prog = xmms
+    button = KEY_9
+    config = NEXT 1
+end
+
+begin
+    prog = xmms
+    button = KEY_#
+    config = QUIT
+end
+
+begin
+    prog = xmms
+    button = KEY_0
+    config = SHUFFLE
+end
+
+begin
+    prog = xmms
+    button = KEY_*
+    config = REPEAT
+end
+
+begin
+    prog = xmms
+    button = KEY_FFFFFFFF
+    config = VOL_UP 5
+end
+
+begin
+    prog = xmms
+    button = KEY_FFFFFFFE
+    config = VOL_DOWN 5
+end
+
+begin
+    prog = xmms
+    button = KEY_FFFFFFFD
+    config = PREV 1
+end
+
+begin
+    prog = xmms
+    button = KEY_FFFFFFFC
+    config = NEXT 1
+end
