@@ -1,0 +1,11 @@
+--- lircserver.py.orig	2009-03-08 19:48:48.000000000 +0200
++++ lircserver.py	2009-03-08 19:51:32.000000000 +0200
+@@ -100,7 +100,7 @@
+     mutex.acquire()
+ 
+     if len(self.clients) > 0:
+-
++      cmd = cmd.replace("#", "POUND");
+       log("[LircServer] Received command " + cmd + " a " + str(len(self.clients)) + " clients")
+       
+       liveclients = []
