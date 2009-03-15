@@ -4,3 +4,4 @@ This page contains information about compatibility of Java application with diff
 || [http://europe.nokia.com/A4142059 Nokia 6021] || Working || Svilen Ivanov || - || 
 || [http://www.sonyericsson.com/cws/products/mobilephones/overview/k800i Sony Ericsson K800I] || Working || Pavel Mlčoch || UI too small ||
 || Nokia Е51 || Working || Yulian Stefanov || - || 
+|| Sony-Ericsson K320i || Working || Csaba Varró || - ||
