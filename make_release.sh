@@ -14,3 +14,4 @@ cp -v *.deb releases/$VERSION
 cp -v midlet/deployed/LircBT.ja? releases/$VERSION
 
 echo "Done"
+# test
